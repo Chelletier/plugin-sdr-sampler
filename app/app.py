@@ -26,6 +26,8 @@ import time
 
 import argparse
 
+from waggle.plugin import Plugin, get_timestamp
+
 
 def snipfcn_snippet_0(self):
     with open(self.location + '.txt','a') as f:
@@ -151,7 +153,8 @@ def main(top_block_cls=NOGUICODE, options=None):
     signal.signal(signal.SIGTERM, sig_handler)
 
     tb.start()
-
+    with Plugin() as plugin:
+          plugin.publish('status', 0)
     time.sleep(300)
     tb.stop()
     tb.wait()

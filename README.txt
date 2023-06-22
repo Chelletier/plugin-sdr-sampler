@@ -18,4 +18,4 @@ stall_gate outputs 0 bytes until it recieves a signal of 1. No matter the legth 
 
 event.py:
 
-creates a folder and .txt file for the .wav and anomaly dates and times to be stored. 
+creates a folder and .txt file for the .wav and anomaly dates and times to be stored.

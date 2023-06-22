@@ -154,7 +154,9 @@ def main(top_block_cls=NOGUICODE, options=None):
 
     tb.start()
     with Plugin() as plugin:
-          plugin.publish('status', 0)
+          #plugin.upload_file()
+
+
     time.sleep(300)
     tb.stop()
     tb.wait()

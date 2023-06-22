@@ -24,6 +24,8 @@ import epy_block_1_0_0_0  # embedded python block
 import event  # embedded python module
 import time
 
+import argparse
+
 
 def snipfcn_snippet_0(self):
     with open(self.location + '.txt','a') as f:
@@ -43,7 +45,7 @@ class NOGUICODE(gr.top_block):
         # Variables
         ##################################################
         
-        self.thresh = thresh = float(input('Threshold: '))
+        self.thresh = thresh = 1.0
         self.samp_rate = samp_rate = 2560000
         self.location = location = '/lightning/data' + time.strftime('%b_%d_%Y_%H_%M', time.localtime()) + '/'+ time.strftime('%b_%d_%Y_%H_%M', time.localtime())
         self.Freq = Freq = 55000000
@@ -158,5 +160,19 @@ def main(top_block_cls=NOGUICODE, options=None):
     tb.wait()
     snippets_main_after_stop(tb)
 
+
+# This part needs changes to work as intended.
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+            description="Plugin for sampling RTL-SDR data")
+
+ 
+    parser.add_argument("--thres",
+                        type=float,
+                        dest='thres',
+                        default=1,
+                        help="Amplitude threshold for detecting signals."
+                        )
+    args = parser.parse_args()
+
     main()

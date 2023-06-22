@@ -7,6 +7,9 @@ RUN apt-get update && apt-get install -y \
     gnuradio \
     gnuradio-dev
 
+COPY requirements.txt /app/
+RUN pip3 install --no-cache-dir --upgrade -r /app/requirements.txt
+
 # move this task to python script.
 RUN mkdir /lightning
 RUN mkdir /lightning/data

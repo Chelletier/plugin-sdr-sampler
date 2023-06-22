@@ -152,10 +152,7 @@ def main(top_block_cls=NOGUICODE, options=None):
 
     tb.start()
 
-    try:
-        input('Press Enter to quit: ')
-    except EOFError:
-        pass
+    time.sleep(300)
     tb.stop()
     tb.wait()
     snippets_main_after_stop(tb)

@@ -2,8 +2,8 @@
 import time
 import os
 
-os.mkdir('/lightning/data' + time.strftime('%b_%d_%Y_%H_%M', time.localtime()))
-folder = '/lightning/data' + time.strftime('%b_%d_%Y_%H_%M', time.localtime())
+os.mkdir('/home/waggle/lightning/data/' + time.strftime('%b_%d_%Y_%H_%M', time.localtime()))
+folder = '/home/waggle/lightning/data/' + time.strftime('%b_%d_%Y_%H_%M', time.localtime())
 store = folder + '/'+ time.strftime('%b_%d_%Y_%H_%M', time.localtime()) + '.txt'
 
 with open(store,'a') as f:

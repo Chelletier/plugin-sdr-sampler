@@ -26,7 +26,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         self.stall = stall
         self.toggle = 0
         self.clock = 0
-        self.store = '/lightning/data' + time.strftime('%b_%d_%Y_%H_%M', time.localtime()) + '/'+ time.strftime('%b_%d_%Y_%H_%M', time.localtime()) + '.txt'
+        self.store = '/home/waggle/lightning/data/' + time.strftime('%b_%d_%Y_%H_%M', time.localtime()) + '/'+ time.strftime('%b_%d_%Y_%H_%M', time.localtime()) + '.txt'
         
 
 

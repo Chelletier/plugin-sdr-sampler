@@ -27,7 +27,7 @@ import time
 
 import argparse
 
-from waggle.plugin import Plugin, get_timestamp
+#from waggle.plugin import Plugin, get_timestamp
 
 
 def snipfcn_snippet_0(self):
@@ -48,9 +48,9 @@ class NOGUICODE(gr.top_block):
         # Variables
         ##################################################
         
-        self.thresh = thresh = 1.0
+        self.thresh = thresh = .13
         self.samp_rate = samp_rate = 2560000
-        self.location = location = '/lightning/data' + time.strftime('%b_%d_%Y_%H_%M', time.localtime()) + '/'+ time.strftime('%b_%d_%Y_%H_%M', time.localtime())
+        self.location = location = '/home/waggle/lightning/data/' + time.strftime('%b_%d_%Y_%H_%M', time.localtime()) + '/'+ time.strftime('%b_%d_%Y_%H_%M', time.localtime())
         self.Freq = Freq = 55000000
 
         ##################################################
@@ -154,7 +154,7 @@ def main(top_block_cls=NOGUICODE, options=None):
     signal.signal(signal.SIGTERM, sig_handler)
 
     tb.start()
-    with Plugin() as plugin:
+#    with Plugin() as plugin:
           #plugin.upload_file()
 
 

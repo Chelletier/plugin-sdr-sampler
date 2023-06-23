@@ -1,19 +1,20 @@
 FROM python:3
-
-ADD detection.py .
-ADD epy_block_1_0_0_0.py .
-ADD epy_block_0_2_0_0_0.py .
-ADD event.py .
+# Change base to new ubuntu
 
 RUN apt-get update && apt-get install -y \
     rtl-sdr \
     librtlsdr-dev \
     gnuradio \
     gnuradio-dev
-     
+
+COPY requirements.txt /app/
+RUN pip3 install --no-cache-dir --upgrade -r /app/requirements.txt
+
+# move this task to python script.
 RUN mkdir /lightning
 RUN mkdir /lightning/data
      
 ENV PYTHONPATH "${PYTHONPATH}:/usr/lib/python3/dist-packages"
 
-CMD ["python3", "./detection.py"]
+COPY app /app/
+ENTRYPOINT ["python3", "/app/app.py"]

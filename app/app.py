@@ -22,8 +22,8 @@ from gnuradio import eng_notation
 from gnuradio import soapy
 import epy_block_0_2_0_0_0  # embedded python block
 import epy_block_1_0_0_0  # embedded python block
-import event  # embedded python module
 import time
+import os
 
 import argparse
 
@@ -48,10 +48,14 @@ class NOGUICODE(gr.top_block):
         # Variables
         ##################################################
         
-        self.thresh = thresh = .13
+        self.thresh = thresh = args.thres
         self.samp_rate = samp_rate = 2560000
-        self.location = location = '/home/waggle/lightning/data/' + time.strftime('%b_%d_%Y_%H_%M', time.localtime()) + '/'+ time.strftime('%b_%d_%Y_%H_%M', time.localtime())
-        self.Freq = Freq = 55000000
+        self.location = location = args.loc
+        self.Freq = Freq = args.freq
+
+        os.mkdir(self.location)
+        with open(self.location + time.strftime('%b_%d_%Y', time.localtime()) + '.txt','a') as f:
+             f.write(time.strftime('BEGIN RECORDING: %b %d %Y %H:%M:%S \n', time.localtime()))
 
         ##################################################
         # Blocks
@@ -69,10 +73,10 @@ class NOGUICODE(gr.top_block):
         self.soapy_rtlsdr_source_0.set_frequency(0, 55000000)
         self.soapy_rtlsdr_source_0.set_frequency_correction(0, 0)
         self.soapy_rtlsdr_source_0.set_gain(0, 'TUNER', 20)
-        self.epy_block_1_0_0_0 = epy_block_1_0_0_0.blk(stall=5000)
+        self.epy_block_1_0_0_0 = epy_block_1_0_0_0.blk(stall=5000,local=self.location)
         self.epy_block_0_2_0_0_0 = epy_block_0_2_0_0_0.blk()
         self.blocks_wavfile_sink_0_0_0_0 = blocks.wavfile_sink(
-            location,
+            self.location + time.strftime('%H_%M_%S', time.localtime()),
             2,
             samp_rate,
             blocks.FORMAT_WAV,
@@ -141,7 +145,7 @@ class NOGUICODE(gr.top_block):
 
 
 
-def main(top_block_cls=NOGUICODE, options=None):
+def main(args,top_block_cls=NOGUICODE, options=None):
     tb = top_block_cls()
 
     def sig_handler(sig=None, frame=None):
@@ -153,12 +157,13 @@ def main(top_block_cls=NOGUICODE, options=None):
     signal.signal(signal.SIGINT, sig_handler)
     signal.signal(signal.SIGTERM, sig_handler)
 
+
     tb.start()
 #    with Plugin() as plugin:
           #plugin.upload_file()
 
 
-    time.sleep(300)
+    time.sleep(args.dur)
     tb.stop()
     tb.wait()
     snippets_main_after_stop(tb)
@@ -173,9 +178,27 @@ if __name__ == '__main__':
     parser.add_argument("--thres",
                         type=float,
                         dest='thres',
-                        default=1,
+                        default=.02,
                         help="Amplitude threshold for detecting signals."
+                        )
+    parser.add_argument("--duration",
+                        type=int,
+                        dest='dur',
+                        default=1,
+                        help="Oneshot duration for detecting signal."
+                        )
+    parser.add_argument("--location",
+                        type=str,
+                        dest='loc',
+                        default='/home/waggle/lightning/data/' + time.strftime('%b_%d_%Y', time.localtime()) + '/',
+                        help="file storage location"
+                        )
+    parser.add_argument("--Frequency",
+                        type=int,
+                        dest='freq',
+                        default=55000000,
+                        help="Center frequency scanned."
                         )
     args = parser.parse_args()
 
-    main()
+    main(args)

@@ -13,7 +13,7 @@ import time
 class blk(gr.sync_block):  # other base classes are basic_block, decim_block, interp_block
     """Embedded Python Block example - a simple multiply const"""
 
-    def __init__(self, stall=1.0):  # only default arguments here
+    def __init__(self, stall=1.0, local='.'):  # only default arguments here
         """arguments to this function show up as parameters in GRC"""
         gr.sync_block.__init__(
             self,
@@ -26,17 +26,14 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         self.stall = stall
         self.toggle = 0
         self.clock = 0
-        self.store = '/home/waggle/lightning/data/' + time.strftime('%b_%d_%Y_%H_%M', time.localtime()) + '/'+ time.strftime('%b_%d_%Y_%H_%M', time.localtime()) + '.txt'
-        
-
-
+        self.local = local + time.strftime('%b %d %Y', time.localtime()) + '.txt'
 
     def work(self, input_items, output_items):
         if (self.toggle == 0):
                 if (np.any(input_items[0] == 1)):
                         self.toggle = 1
                         output_items[0][:] = 1
-                        with open(self.store,'a') as f:
+                        with open(self.local,'a') as f:
                                 f.write(time.strftime('START: %b %d %Y %H:%M:%S \n', time.localtime()))
                         print(time.strftime('\n ANOMALY START: %b %d %Y %H:%M:%S \n', time.localtime()))
                 else:
@@ -48,7 +45,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
                         self.toggle = 0
                         self.clock = 0
                         output_items[0][:] = 0
-                        with open(self.store,'a') as f:
+                        with open(self.local,'a') as f:
                               f.write(time.strftime('END: %b %d %Y %H:%M:%S \n', time.localtime()))
                         print(time.strftime('\n ANOMALY STOP: %b %d %Y %H:%M:%S \n', time.localtime()))
         return len(output_items[0])

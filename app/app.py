@@ -26,7 +26,7 @@ import os
 
 import argparse
 
-from waggle.plugin import Plugin, get_timestamp
+#from waggle.plugin import Plugin, get_timestamp
 
 
 def snipfcn_snippet_0(self):
@@ -53,7 +53,9 @@ class NOGUICODE(gr.top_block):
         self.Freq = Freq = args.freq
         self.txt = self.location + 'event_times.txt'
 
-        os.mkdir(self.location)
+        if(os.path.exists(self.location)==False):
+             os.mkdir(self.location)
+        
         with open(self.txt,'a') as f:
              f.write(time.strftime('BEGIN RECORDING: %b %d %Y %H:%M:%S \n', time.localtime()) + ' Threshold: ' + str(self.thresh)+ '\n Center Frequency: ' + str(args.freq)+ '\n Shot Duration: ' + str(args.dur) + '\n')
 
@@ -158,8 +160,8 @@ def main(args,top_block_cls=NOGUICODE, options=None):
 
 
     tb.start()
-    with Plugin() as plugin:
-          plugin.upload_file('/lightning/data/')
+#    with Plugin() as plugin:
+#          plugin.upload_file('/lightning/data/')
 
 
     time.sleep(args.dur)
@@ -177,7 +179,7 @@ if __name__ == '__main__':
     parser.add_argument("--thres",
                         type=float,
                         dest='thres',
-                        default=.02,
+                        default=1,
                         help="Amplitude threshold for detecting signals."
                         )
     parser.add_argument("--duration",

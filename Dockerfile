@@ -1,4 +1,4 @@
-FROM ubuntu:jammy
+FROM python:3
 # Change base to new ubuntu
 
 RUN apt-get update && apt-get install -y \

@@ -26,7 +26,7 @@ import os
 
 import argparse
 
-#from waggle.plugin import Plugin, get_timestamp
+from waggle.plugin import Plugin, get_timestamp
 
 
 def snipfcn_snippet_0(self):
@@ -52,6 +52,7 @@ class NOGUICODE(gr.top_block):
         self.location = location = '/lightning/data/'
         self.Freq = Freq = args.freq
         self.txt = self.location + 'event_times.txt'
+        self.wav = self.location + time.strftime('%H_%M_%S', time.localtime())
 
         if(os.path.exists(self.location)==False):
              os.mkdir(self.location)
@@ -78,7 +79,7 @@ class NOGUICODE(gr.top_block):
         self.epy_block_1_0_0_0 = epy_block_1_0_0_0.blk(stall=500,local=self.location)
         self.epy_block_0_2_0_0_0 = epy_block_0_2_0_0_0.blk()
         self.blocks_wavfile_sink_0_0_0_0 = blocks.wavfile_sink(
-            self.location + time.strftime('%H_%M_%S', time.localtime()),
+            self.wav,
             2,
             samp_rate,
             blocks.FORMAT_WAV,
@@ -160,14 +161,16 @@ def main(args,top_block_cls=NOGUICODE, options=None):
 
 
     tb.start()
-#    with Plugin() as plugin:
-#          plugin.upload_file('/lightning/data/')
+
 
 
     time.sleep(args.dur)
     tb.stop()
     tb.wait()
     snippets_main_after_stop(tb)
+    with Plugin() as plugin:
+        plugin.upload_file(tb.txt)
+        plugin.upload_file(tb.wav)
 
 
 # This part needs changes to work as intended.

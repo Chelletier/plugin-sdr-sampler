@@ -27,7 +27,7 @@ import os
 
 import argparse
 
-#from waggle.plugin import Plugin, get_timestamp
+from waggle.plugin import Plugin, get_timestamp
 
 
 def snipfcn_snippet_0(self):
@@ -50,7 +50,7 @@ class NOGUICODE(gr.top_block):
         
         self.thresh = thresh = args.thres
         self.samp_rate = samp_rate = 2560000
-        self.location = location = args.loc
+        self.location = location = '/lightning/data/' + time.strftime('%b_%d_%Y', time.localtime()) + '/',
         self.Freq = Freq = args.freq
 
         os.mkdir(self.location)
@@ -159,8 +159,8 @@ def main(args,top_block_cls=NOGUICODE, options=None):
 
 
     tb.start()
-#    with Plugin() as plugin:
-          #plugin.upload_file()
+    with Plugin() as plugin:
+          plugin.upload_file('/lightning/data/' + time.strftime('%b_%d_%Y', time.localtime()) + '/',)
 
 
     time.sleep(args.dur)
@@ -184,13 +184,13 @@ if __name__ == '__main__':
     parser.add_argument("--duration",
                         type=int,
                         dest='dur',
-                        default=1,
+                        default=900,
                         help="Oneshot duration for detecting signal."
                         )
     parser.add_argument("--location",
                         type=str,
                         dest='loc',
-                        default='/home/waggle/lightning/data/' + time.strftime('%b_%d_%Y', time.localtime()) + '/',
+                        default='/lightning/data/' + time.strftime('%b_%d_%Y', time.localtime()) + '/',
                         help="file storage location"
                         )
     parser.add_argument("--Frequency",

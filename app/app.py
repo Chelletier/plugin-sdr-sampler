@@ -55,7 +55,7 @@ class NOGUICODE(gr.top_block):
 
         os.mkdir(self.location)
         with open(self.location + time.strftime('%b_%d_%Y', time.localtime()) + '.txt','a') as f:
-             f.write(time.strftime('BEGIN RECORDING: %b %d %Y %H:%M:%S \n', time.localtime()))
+             f.write(time.strftime('BEGIN RECORDING: %b %d %Y %H:%M:%S \n', time.localtime()) + ' Threshold: ' + str(self.thresh)+ '\n Center Frequency: ' + str(args.freq)+ '\n Shot Duration: ' + str(args.dur) + '\n')
 
         ##################################################
         # Blocks
@@ -186,12 +186,6 @@ if __name__ == '__main__':
                         dest='dur',
                         default=900,
                         help="Oneshot duration for detecting signal."
-                        )
-    parser.add_argument("--location",
-                        type=str,
-                        dest='loc',
-                        default='/lightning/data/' + time.strftime('%b_%d_%Y', time.localtime()) + '/',
-                        help="file storage location"
                         )
     parser.add_argument("--Frequency",
                         type=int,

@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
 #
 # SPDX-License-Identifier: GPL-3.0
 #
@@ -54,7 +53,7 @@ class NOGUICODE(gr.top_block):
         self.Freq = Freq = args.freq
         self.txt = self.location + 'event_times.txt'
 
-#        os.mkdir(self.location)
+        os.mkdir(self.location)
         with open(self.txt,'a') as f:
              f.write(time.strftime('BEGIN RECORDING: %b %d %Y %H:%M:%S \n', time.localtime()) + ' Threshold: ' + str(self.thresh)+ '\n Center Frequency: ' + str(args.freq)+ '\n Shot Duration: ' + str(args.dur) + '\n')
 
@@ -93,7 +92,6 @@ class NOGUICODE(gr.top_block):
         self.blocks_add_xx_1_0_0_0 = blocks.add_vff(1)
         self.analog_sig_source_x_0_0_0_0_0_0_0 = analog.sig_source_f(samp_rate, analog.GR_SQR_WAVE, 100, -1, 0, 3)
         self.analog_pwr_squelch_xx_0_0_0_0 = analog.pwr_squelch_cc(-60, 1e-4, 0, True)
-
 
         ##################################################
         # Connections

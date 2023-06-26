@@ -26,7 +26,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         self.stall = stall
         self.toggle = 0
         self.clock = 0
-        self.local = local + time.strftime('%b %d %Y', time.localtime()) + '.txt'
+        self.local = local + 'event_times.txt'
 
     def work(self, input_items, output_items):
         if (self.toggle == 0):

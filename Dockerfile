@@ -9,10 +9,6 @@ RUN apt-get update && apt-get install -y \
 
 COPY requirements.txt /app/
 RUN pip3 install --no-cache-dir --upgrade -r /app/requirements.txt
-
-# move this task to python script.
-RUN mkdir /lightning
-RUN mkdir /lightning/data
      
 ENV PYTHONPATH "${PYTHONPATH}:/usr/lib/python3/dist-packages"
 

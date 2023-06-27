@@ -169,14 +169,18 @@ def main(args,top_block_cls=NOGUICODE, options=None):
     tb.wait()
     snippets_main_after_stop(tb)
     
+    meta = {'sdr_events':tb.epy_block_1_0_0_0.events,
+            'sdr_threshold':args.thres,
+            'sdr_frequency': args.freq
+    }
     if(tb.epy_block_1_0_0_0.events > 0):
         with Plugin() as plugin:
-            plugin.upload_file(tb.txt)
-            plugin.upload_file(tb.wav)
-            plugin.publish('is.events', tb.epy_block_1_0_0_0.events)
+            plugin.upload_file(tb.txt, meta=meta)
+            plugin.upload_file(tb.wav, meta=meta)
+            plugin.publish('sdr.events', tb.epy_block_1_0_0_0.events, meta=meta)
     else:
         with Plugin() as plugin:
-            plugin.publish('is.events', tb.epy_block_1_0_0_0.events)
+            plugin.publish('sdr.events', tb.epy_block_1_0_0_0.events, meta=meta)
 
 
 
@@ -186,7 +190,7 @@ if __name__ == '__main__':
             description="Plugin for sampling RTL-SDR data")
 
  
-    parser.add_argument("--thres",
+    parser.add_argument("--threshold",
                         type=float,
                         dest='thres',
                         default=1,
@@ -196,13 +200,13 @@ if __name__ == '__main__':
                         type=int,
                         dest='dur',
                         default=900,
-                        help="Oneshot duration for detecting signal."
+                        help="Oneshot duration for detecting signal (sec)."
                         )
-    parser.add_argument("--Frequency",
+    parser.add_argument("--frequency",
                         type=int,
                         dest='freq',
                         default=55000000,
-                        help="Center frequency scanned."
+                        help="Center frequency scanned (Hz)."
                         )
     args = parser.parse_args()
 

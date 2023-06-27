@@ -16,11 +16,11 @@ source:
   branch: "main"
 
 inputs:
-- id: "thres"
+- id: "threshold"
   type: "float"
 - id: "duration"
   type: "int"
-- id: "Frequency"
+- id: "frequency"
   type: "int"
 
 metadata:

@@ -168,9 +168,15 @@ def main(args,top_block_cls=NOGUICODE, options=None):
     tb.stop()
     tb.wait()
     snippets_main_after_stop(tb)
+    
+    if(tb.epy_block_1_0_0_0.events > 0):
     with Plugin() as plugin:
         plugin.upload_file(tb.txt)
         plugin.upload_file(tb.wav)
+        plugin.publish('is.events', tb.epy_block_1_0_0_0.events)
+    else:
+        plugin.publish('is.events', tb.epy_block_1_0_0_0.events)
+
 
 
 # This part needs changes to work as intended.
@@ -188,7 +194,7 @@ if __name__ == '__main__':
     parser.add_argument("--duration",
                         type=int,
                         dest='dur',
-                        default=900,
+                        default=5,
                         help="Oneshot duration for detecting signal."
                         )
     parser.add_argument("--Frequency",

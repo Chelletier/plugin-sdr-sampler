@@ -27,6 +27,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         self.toggle = 0
         self.clock = 0
         self.local = local + 'event_times.txt'
+        self.events = 0
 
     def work(self, input_items, output_items):
         if (self.toggle == 0):
@@ -36,6 +37,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
                         with open(self.local,'a') as f:
                                 f.write(time.strftime('START: %b %d %Y %H:%M:%S \n', time.localtime()))
                         print(time.strftime('\n ANOMALY START: %b %d %Y %H:%M:%S \n', time.localtime()))
+                        self.events = 1 + self.events
                 else:
                         output_items[0][:] = 0
         if (self.toggle == 1):

@@ -170,10 +170,10 @@ def main(args,top_block_cls=NOGUICODE, options=None):
     snippets_main_after_stop(tb)
     
     if(tb.epy_block_1_0_0_0.events > 0):
-    with Plugin() as plugin:
-        plugin.upload_file(tb.txt)
-        plugin.upload_file(tb.wav)
-        plugin.publish('is.events', tb.epy_block_1_0_0_0.events)
+        with Plugin() as plugin:
+            plugin.upload_file(tb.txt)
+            plugin.upload_file(tb.wav)
+            plugin.publish('is.events', tb.epy_block_1_0_0_0.events)
     else:
         plugin.publish('is.events', tb.epy_block_1_0_0_0.events)
 

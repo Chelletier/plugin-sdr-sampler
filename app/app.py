@@ -176,7 +176,7 @@ def main(args,top_block_cls=NOGUICODE, options=None):
             plugin.publish('is.events', tb.epy_block_1_0_0_0.events)
     else:
         with Plugin() as plugin:
-        plugin.publish('is.events', tb.epy_block_1_0_0_0.events)
+            plugin.publish('is.events', tb.epy_block_1_0_0_0.events)
 
 
 

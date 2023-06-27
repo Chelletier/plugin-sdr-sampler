@@ -1,0 +1,16 @@
+name: "sdr-sampler"
+namespace: "waggle"
+description: "Detects radio signals in short bursts and records any anomalies found."
+version: "0.23.04.24"
+authors: "Chase Pelletier <cpelletier@anl.gov>"
+collaborators: "Dario Dematties Reyes, Joseph Swantek, Neal Conrad, Nicola Ferrier, Pete Beckman, Raj Sankaran, Robert Jackson, Scott Collis, Sean Shahkarami, Seongha Park, Yongho Kim"
+funding: "NSF 1935984"
+license: "GPL-3.0 license"
+keywords: "RTL-SDR, Lightning, radio, rf"
+homepage: "https://github.com/Chelletier/plugin-sdr-sampler"
+source:
+  architectures:
+    - "linux/amd64"
+    - "linux/arm64"
+  url: "https://github.com/Chelletier/plugin-sdr-sampler" 
+  branch: "main"

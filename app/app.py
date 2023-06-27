@@ -195,7 +195,7 @@ if __name__ == '__main__':
     parser.add_argument("--duration",
                         type=int,
                         dest='dur',
-                        default=5,
+                        default=900,
                         help="Oneshot duration for detecting signal."
                         )
     parser.add_argument("--Frequency",

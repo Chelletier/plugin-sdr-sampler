@@ -100,7 +100,7 @@ class NOGUICODE(gr.top_block):
         self.connect((self.analog_pwr_squelch_xx_0_0_0_0, 0), (self.blocks_complex_to_float_0_0_0_0, 0))
         self.connect((self.blocks_complex_to_float_0_0_0_0, 1), (self.blocks_wavfile_sink_0_0_0_0, 1))
         self.connect((self.blocks_complex_to_float_0_0_0_0, 0), (self.blocks_wavfile_sink_0_0_0_0, 0))
-        self.connect((self.blocks_complex_to_float_1_0_0_0, 1), (self.blocks_threshold_ff_0_0_0_0, 0), 0))
+        self.connect((self.blocks_complex_to_float_1_0_0_0, 1), (self.blocks_threshold_ff_0_0_0_0, 0))
         self.connect((self.blocks_complex_to_float_1_0_0_0, 0), (self.blocks_null_sink_0_0_0_0, 0))
         self.connect((self.blocks_delay_1_0_0_0, 0), (self.epy_block_0_2_0_0_0, 0))
         self.connect((self.blocks_float_to_char_0_0_0_0, 0), (self.epy_block_1_0_0_0, 0))

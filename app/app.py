@@ -49,7 +49,7 @@ class NOGUICODE(gr.top_block):
         
         self.thresh = thresh = args.thres
         self.samp_rate = samp_rate = 2560000
-        self.location = location = '/lightning/data/'
+        self.location = location = '/plugin-sdr-sampler/data/'
         self.Freq = Freq = args.freq
         self.txt = self.location + 'event_times.txt'
         self.wav = self.location + time.strftime('%H_%M_%S', time.localtime())

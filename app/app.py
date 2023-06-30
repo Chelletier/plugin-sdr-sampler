@@ -166,9 +166,9 @@ def main(args,top_block_cls=NOGUICODE, options=None):
     time.sleep(args.dur)
     print('everywhere')
     
-    while (tb.epy_block_1_0_0_0.events > tb.epy_block_1_0_0_0.ends):
-            time.sleep(1)
-            print('why')
+#    while (tb.epy_block_1_0_0_0.events > tb.epy_block_1_0_0_0.ends):
+#            time.sleep(1)
+#            print('why')
     print('worked')
     tb.stop()
     tb.wait()

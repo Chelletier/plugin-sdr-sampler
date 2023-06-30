@@ -163,13 +163,17 @@ def main(args,top_block_cls=NOGUICODE, options=None):
             time.sleep(3)
             
     time.sleep(args.dur)
+    
+    while (tb.epy_block_1_0_0_0.events != tb.epy_block_1_0_0_0.events):
+            time.sleep(1)
+    
     tb.stop()
     tb.wait()
     snippets_main_after_stop(tb)
     
-    meta = {'sdr_events':tb.epy_block_1_0_0_0.events,
-            'sdr_threshold':args.thres,
-            'sdr_frequency': args.freq
+    meta = {'sdr_events':str(tb.epy_block_1_0_0_0.events),
+            'sdr_threshold':str(args.thres),
+            'sdr_frequency':str(args.freq)
     }
     if(tb.epy_block_1_0_0_0.events > 0):
         with Plugin() as plugin:

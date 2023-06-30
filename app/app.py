@@ -164,7 +164,7 @@ def main(args,top_block_cls=NOGUICODE, options=None):
             
     time.sleep(args.dur)
     
-    while (tb.epy_block_1_0_0_0.events != tb.epy_block_1_0_0_0.events):
+    while (tb.epy_block_1_0_0_0.events != tb.epy_block_1_0_0_0.ends):
             time.sleep(1)
     
     tb.stop()

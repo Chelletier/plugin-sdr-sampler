@@ -158,18 +158,18 @@ def main(args,top_block_cls=NOGUICODE, options=None):
 
     tb.start()
 
-    print('here')
+
     while (tb.epy_block_1_0_0_0.events < 0):
             time.sleep(3)
     
-    print('there')        
+        
     time.sleep(args.dur)
-    print('everywhere')
+
     
 #    while (tb.epy_block_1_0_0_0.events > tb.epy_block_1_0_0_0.ends):
 #            time.sleep(1)
-#            print('why')
-    print('worked')
+
+
     tb.stop()
     tb.wait()
     snippets_main_after_stop(tb)

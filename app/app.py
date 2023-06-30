@@ -58,7 +58,7 @@ class NOGUICODE(gr.top_block):
              os.mkdir(self.location)
         
         with open(self.txt,'a') as f:
-             f.write(time.strftime('BEGIN RECORDING: %b %d %Y %H:%M:%S \n', time.localtime()) + ' Threshold: ' + str(self.thresh)+ '\n Center Frequency: ' + str(args.freq)+ '\n Shot Duration: ' + str(args.dur) + '\n')
+             f.write(time.strftime(' Threshold: ' + str(self.thresh)+ '\n Center Frequency: ' + str(args.freq)+ '\n Shot Duration: ' + str(args.dur) + '\n \n ' + 'BEGIN RECORDING: %b %d %Y %H:%M:%S \n', time.localtime()))
 
         ##################################################
         # Blocks
@@ -76,7 +76,7 @@ class NOGUICODE(gr.top_block):
         self.soapy_rtlsdr_source_0.set_frequency(0, 55000000)
         self.soapy_rtlsdr_source_0.set_frequency_correction(0, 0)
         self.soapy_rtlsdr_source_0.set_gain(0, 'TUNER', 20)
-        self.epy_block_1_0_0_0 = epy_block_1_0_0_0.blk(stall=500,local=self.location)
+        self.epy_block_1_0_0_0 = epy_block_1_0_0_0.blk(stall=2500,local=self.location)
         self.epy_block_0_2_0_0_0 = epy_block_0_2_0_0_0.blk()
         self.blocks_wavfile_sink_0_0_0_0 = blocks.wavfile_sink(
             self.wav,
@@ -86,25 +86,21 @@ class NOGUICODE(gr.top_block):
             blocks.FORMAT_PCM_16,
             False
             )
-        self.blocks_threshold_ff_0_0_0_0 = blocks.threshold_ff(thresh * -1, thresh, 0)
+        self.blocks_threshold_ff_0_0_0_0 = blocks.threshold_ff(thresh - thresh * .01, thresh, 0)
         self.blocks_null_sink_0_0_0_0 = blocks.null_sink(gr.sizeof_float*1)
         self.blocks_float_to_char_0_0_0_0 = blocks.float_to_char(1, 1)
-        self.blocks_delay_1_0_0_0 = blocks.delay(gr.sizeof_gr_complex*1, 2000000)
+        self.blocks_delay_1_0_0_0 = blocks.delay(gr.sizeof_gr_complex*1, 4000000)
         self.blocks_complex_to_float_1_0_0_0 = blocks.complex_to_float(1)
         self.blocks_complex_to_float_0_0_0_0 = blocks.complex_to_float(1)
-        self.blocks_add_xx_1_0_0_0 = blocks.add_vff(1)
-        self.analog_sig_source_x_0_0_0_0_0_0_0 = analog.sig_source_f(samp_rate, analog.GR_SQR_WAVE, 100, -1, 0, 3)
         self.analog_pwr_squelch_xx_0_0_0_0 = analog.pwr_squelch_cc(-60, 1e-4, 0, True)
 
         ##################################################
         # Connections
         ##################################################
         self.connect((self.analog_pwr_squelch_xx_0_0_0_0, 0), (self.blocks_complex_to_float_0_0_0_0, 0))
-        self.connect((self.analog_sig_source_x_0_0_0_0_0_0_0, 0), (self.blocks_add_xx_1_0_0_0, 1))
-        self.connect((self.blocks_add_xx_1_0_0_0, 0), (self.blocks_threshold_ff_0_0_0_0, 0))
         self.connect((self.blocks_complex_to_float_0_0_0_0, 1), (self.blocks_wavfile_sink_0_0_0_0, 1))
         self.connect((self.blocks_complex_to_float_0_0_0_0, 0), (self.blocks_wavfile_sink_0_0_0_0, 0))
-        self.connect((self.blocks_complex_to_float_1_0_0_0, 1), (self.blocks_add_xx_1_0_0_0, 0))
+        self.connect((self.blocks_complex_to_float_1_0_0_0, 1), (self.blocks_threshold_ff_0_0_0_0, 0), 0))
         self.connect((self.blocks_complex_to_float_1_0_0_0, 0), (self.blocks_null_sink_0_0_0_0, 0))
         self.connect((self.blocks_delay_1_0_0_0, 0), (self.epy_block_0_2_0_0_0, 0))
         self.connect((self.blocks_float_to_char_0_0_0_0, 0), (self.epy_block_1_0_0_0, 0))
@@ -121,7 +117,7 @@ class NOGUICODE(gr.top_block):
     def set_thresh(self, thresh):
         self.thresh = thresh
         self.blocks_threshold_ff_0_0_0_0.set_hi(self.thresh)
-        self.blocks_threshold_ff_0_0_0_0.set_lo(self.thresh * -1)
+        self.blocks_threshold_ff_0_0_0_0.set_lo(self.thresh - self.thresh * .01)
 
     def get_samp_rate(self):
         return self.samp_rate
@@ -163,7 +159,9 @@ def main(args,top_block_cls=NOGUICODE, options=None):
     tb.start()
 
 
-
+    while (tb.epy_block_1_0_0_0.events < 0):
+            time.sleep(3)
+            
     time.sleep(args.dur)
     tb.stop()
     tb.wait()

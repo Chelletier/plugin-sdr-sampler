@@ -159,7 +159,7 @@ def main(args,top_block_cls=NOGUICODE, options=None):
     tb.start()
 
 
-    while (tb.epy_block_1_0_0_0.events < 0):
+    while (tb.epy_block_1_0_0_0.events < 1):
             time.sleep(3)
     
         

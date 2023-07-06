@@ -166,7 +166,7 @@ def main(args,top_block_cls=NOGUICODE, options=None):
     
     if (tb.epy_block_1_0_0_0.events > tb.epy_block_1_0_0_0.ends):
             time.sleep(2)
-    print(str(time.sleep(args.dur))    
+    print(str(time.sleep(args.dur)))    
     tb.stop()
     tb.wait()
     snippets_main_after_stop(tb)

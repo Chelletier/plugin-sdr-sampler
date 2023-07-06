@@ -168,6 +168,7 @@ def main(args,top_block_cls=NOGUICODE, options=None):
 
     
     if (tb.epy_block_1_0_0_0.events > tb.epy_block_1_0_0_0.ends):
+            print('while 1')
             time.sleep(4)
             print('while 2')
 

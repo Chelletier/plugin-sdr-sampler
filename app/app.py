@@ -166,7 +166,7 @@ def main(args,top_block_cls=NOGUICODE, options=None):
     
     if (tb.epy_block_1_0_0_0.events > tb.epy_block_1_0_0_0.ends):
             time.sleep(2)
-    print(str(time.sleep(args.dur)))    
+
     tb.stop()
     tb.wait()
     snippets_main_after_stop(tb)
@@ -180,11 +180,6 @@ def main(args,top_block_cls=NOGUICODE, options=None):
             plugin.upload_file(tb.txt, meta=meta)
             plugin.upload_file(tb.wav, meta=meta)
             plugin.publish('sdr.events', tb.epy_block_1_0_0_0.events, meta=meta)
-    else:
-        with Plugin() as plugin:
-            plugin.publish('sdr.events', tb.epy_block_1_0_0_0.events, meta=meta)
-
-
 
 # This part needs changes to work as intended.
 if __name__ == '__main__':

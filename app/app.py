@@ -52,7 +52,7 @@ class NOGUICODE(gr.top_block):
         self.location = location = '/data/'
         self.Freq = Freq = args.freq
         self.txt = self.location + 'event_times.txt'
-        self.wav = self.location + time.strftime('%H_%M_%S', time.localtime())
+        self.wav = self.location + time.strftime('%H_%M_%S', time.localtime()) + '.wav'
 
         if(os.path.exists(self.location)==False):
              os.mkdir(self.location)
@@ -158,18 +158,21 @@ def main(args,top_block_cls=NOGUICODE, options=None):
 
     tb.start()
 
-
+    print('start')
     while (tb.epy_block_1_0_0_0.events < 1):
             time.sleep(3)
+            print('while 1')
     
         
     time.sleep(args.dur)
 
     
-#    while (tb.epy_block_1_0_0_0.events > tb.epy_block_1_0_0_0.ends):
-#            time.sleep(1)
+    while (tb.epy_block_1_0_0_0.events > tb.epy_block_1_0_0_0.ends):
+            time.sleep(1)
+            print('while 2')
 
-
+    print('stop')
+    
     tb.stop()
     tb.wait()
     snippets_main_after_stop(tb)

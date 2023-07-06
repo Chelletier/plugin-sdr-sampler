@@ -158,26 +158,15 @@ def main(args,top_block_cls=NOGUICODE, options=None):
 
     tb.start()
 
-    print('start')
 #    while (tb.epy_block_1_0_0_0.events < 1):
 #            time.sleep(3)
 #            print('while 1')
     
-        
-    time.sleep(args.dur)
-    print('while 3')
     time.sleep(args.dur)
     
     if (tb.epy_block_1_0_0_0.events > tb.epy_block_1_0_0_0.ends):
-            print('while 1')
-            print('while 4')
             time.sleep(2)
-            print('while 5')
-            time.sleep(2)
-            print('while 2')
-
-    print('stop')
-    
+    print(str(time.sleep(args.dur))    
     tb.stop()
     tb.wait()
     snippets_main_after_stop(tb)

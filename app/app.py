@@ -159,17 +159,17 @@ def main(args,top_block_cls=NOGUICODE, options=None):
     tb.start()
 
     print('start')
-    while (tb.epy_block_1_0_0_0.events < 1):
-            time.sleep(3)
-            print('while 1')
+#    while (tb.epy_block_1_0_0_0.events < 1):
+#            time.sleep(3)
+#            print('while 1')
     
         
     time.sleep(args.dur)
 
     
-    while (tb.epy_block_1_0_0_0.events > tb.epy_block_1_0_0_0.ends):
-            time.sleep(1)
-            print('while 2')
+#    while (tb.epy_block_1_0_0_0.events > tb.epy_block_1_0_0_0.ends):
+#            time.sleep(1)
+#            print('while 2')
 
     print('stop')
     

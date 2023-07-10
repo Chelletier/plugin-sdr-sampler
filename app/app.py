@@ -47,7 +47,7 @@ class NOGUICODE(gr.top_block):
         # Variables
         ##################################################
         
-        self.thresh = thresh = args.thres
+        self.thresh = thresh = 1
         self.samp_rate = samp_rate = 2560000
         self.location = location = '/data/'
         self.Freq = Freq = args.freq
@@ -94,6 +94,7 @@ class NOGUICODE(gr.top_block):
         self.blocks_complex_to_float_0_0_0_0 = blocks.complex_to_float(1)
         self.analog_pwr_squelch_xx_0_0_0_0 = analog.pwr_squelch_cc(-60, 1e-4, 0, True)
 
+        self.thresh = self.epy_block_0_2_0_0_0.bigt
         ##################################################
         # Connections
         ##################################################
@@ -172,7 +173,7 @@ def main(args,top_block_cls=NOGUICODE, options=None):
     snippets_main_after_stop(tb)
     
     meta = {'sdr_events':str(tb.epy_block_1_0_0_0.events),
-            'sdr_threshold':str(args.thres),
+            'sdr_threshold':str(tb.epy_block_0_2_0_0_0.bigt),
             'sdr_frequency':str(args.freq)
     }
     if(tb.epy_block_1_0_0_0.events > 0):

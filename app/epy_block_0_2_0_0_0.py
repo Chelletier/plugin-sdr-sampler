@@ -24,8 +24,19 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         )
         # if an attribute with the same name as a parameter is found,
         # a callback is registered (properties work, too).
-    
+        self.index = 0
+        self.alpha = 0
+        self.bigt = 1
+        
     def work(self, input_items, output_items):
+        if (0 < np.max(input_items[0])):
+                self.index = self.index + 1
+                if(self.alpha < np.max(input_items[0])) and (self.index < 100):
+                        self.alpha = np.max(input_items[0])
+                        self.index = self.index + 1
+                if(self.index > 99):
+                        self.bigt = self.alpha + self.alpha * .01 
+        
         if (np.all(input_items[1] == 1)):
                 output_items[0][:] = input_items[0]
                 

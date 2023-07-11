@@ -26,7 +26,7 @@ import os
 
 import argparse
 
-from waggle.plugin import Plugin, get_timestamp
+#from waggle.plugin import Plugin, get_timestamp
 
 
 def snipfcn_snippet_0(self):
@@ -47,7 +47,6 @@ class NOGUICODE(gr.top_block):
         # Variables
         ##################################################
         
-        self.thresh = thresh = 1
         self.samp_rate = samp_rate = 2560000
         self.location = location = '/data/'
         self.Freq = Freq = args.freq
@@ -86,7 +85,7 @@ class NOGUICODE(gr.top_block):
             blocks.FORMAT_PCM_16,
             False
             )
-        self.blocks_threshold_ff_0_0_0_0 = blocks.threshold_ff(thresh - thresh * .01, thresh, 0)
+        self.blocks_threshold_ff_0_0_0_0 = blocks.threshold_ff(self.epy_block_0_2_0_0_0.bigt - self.epy_block_0_2_0_0_0.bigt * .01, self.epy_block_0_2_0_0_0.bigt, 0)
         self.blocks_null_sink_0_0_0_0 = blocks.null_sink(gr.sizeof_float*1)
         self.blocks_float_to_char_0_0_0_0 = blocks.float_to_char(1, 1)
         self.blocks_delay_1_0_0_0 = blocks.delay(gr.sizeof_gr_complex*1, 4000000)
@@ -94,7 +93,6 @@ class NOGUICODE(gr.top_block):
         self.blocks_complex_to_float_0_0_0_0 = blocks.complex_to_float(1)
         self.analog_pwr_squelch_xx_0_0_0_0 = analog.pwr_squelch_cc(-60, 1e-4, 0, True)
 
-        self.thresh = self.epy_block_0_2_0_0_0.bigt
         ##################################################
         # Connections
         ##################################################
@@ -116,9 +114,9 @@ class NOGUICODE(gr.top_block):
         return self.thresh
 
     def set_thresh(self, thresh):
-        self.thresh = thresh
-        self.blocks_threshold_ff_0_0_0_0.set_hi(self.thresh)
-        self.blocks_threshold_ff_0_0_0_0.set_lo(self.thresh - self.thresh * .01)
+        self.thresh = self.epy_block_0_2_0_0_0.bigt
+        self.blocks_threshold_ff_0_0_0_0.set_hi(self.epy_block_0_2_0_0_0.bigt)
+        self.blocks_threshold_ff_0_0_0_0.set_lo(self.epy_block_0_2_0_0_0.bigt - self.epy_block_0_2_0_0_0.bigt * .01)
 
     def get_samp_rate(self):
         return self.samp_rate
@@ -167,37 +165,31 @@ def main(args,top_block_cls=NOGUICODE, options=None):
     
     if (tb.epy_block_1_0_0_0.events > tb.epy_block_1_0_0_0.ends):
             time.sleep(2)
-
+    print(tb.thresh)
+    print(tb.epy_block_0_2_0_0_0.bigt)
     tb.stop()
     tb.wait()
     snippets_main_after_stop(tb)
     
-    meta = {'sdr_events':str(tb.epy_block_1_0_0_0.events),
-            'sdr_threshold':str(tb.epy_block_0_2_0_0_0.bigt),
-            'sdr_frequency':str(args.freq)
-    }
-    if(tb.epy_block_1_0_0_0.events > 0):
-        with Plugin() as plugin:
-            plugin.upload_file(tb.txt, meta=meta)
-            plugin.upload_file(tb.wav, meta=meta)
-            plugin.publish('sdr.events', tb.epy_block_1_0_0_0.events, meta=meta)
+#    meta = {'sdr_events':str(tb.epy_block_1_0_0_0.events),
+#            'sdr_threshold':str(tb.epy_block_0_2_0_0_0.bigt),
+#            'sdr_frequency':str(args.freq)
+#    }
+#    if(tb.epy_block_1_0_0_0.events > 0):
+#        with Plugin() as plugin:
+#            plugin.upload_file(tb.txt, meta=meta)
+#            plugin.upload_file(tb.wav, meta=meta)
+#            plugin.publish('sdr.events', tb.epy_block_1_0_0_0.events, meta=meta)
 
 # This part needs changes to work as intended.
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
             description="Plugin for sampling RTL-SDR data")
 
- 
-    parser.add_argument("--threshold",
-                        type=float,
-                        dest='thres',
-                        default=1,
-                        help="Amplitude threshold for detecting signals."
-                        )
     parser.add_argument("--duration",
                         type=int,
                         dest='dur',
-                        default=900,
+                        default=20,
                         help="Oneshot duration for detecting signal (sec)."
                         )
     parser.add_argument("--frequency",

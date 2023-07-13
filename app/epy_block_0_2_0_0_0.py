@@ -9,7 +9,7 @@ be the parameters. All of them are required to have default values!
 import numpy as np
 from gnuradio import gr
 import time
-
+import cmath
 
 class blk(gr.sync_block):  # other base classes are basic_block, decim_block, interp_block
     """Embedded Python Block example - a simple multiply const"""
@@ -27,19 +27,49 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         self.index = 0
         self.alpha = 0
         self.bigt = 1
+        self.test = 0
+        self.count = 1
+        self.test2 = 0
+        self.reset = 10000
         
     def work(self, input_items, output_items):
-        if (0 < np.max(input_items[0])):
+        self.test = self.test + 1
+        if (0 < np.max(input_items[0])) and (self.index < self.reset):
                 self.index = self.index + 1
-                if(self.alpha < np.max(input_items[0])) and (self.index < 100):
+                if(self.alpha < np.max(input_items[0])) and (self.index < self.reset):
                         self.alpha = np.max(input_items[0])
-                        self.index = self.index + 1
-                if(self.index > 99):
-                        self.bigt = self.alpha + self.alpha * .01 
-        
+#                        print(self.alpha.real)
+                        self.test2 = np.max(input_items[0]).real + self.test2
+                        self.count = self.count + 1
+                if(self.index > self.reset - 1) and (self.test2 != 0):
+#                        print(self.alpha.real)
+#                        print(self.test2/self.count)
+
+                        self.bigt = (self.alpha.real) + (self.alpha.real) * 0.2 
+#                        self.bigt = (self.test2/self.count) 
+                        self.index = 0
+                        self.test2 = 0
+                        self.count = 1
+                        self.reset = 10000
+                        self.alpha = 0
+#                        print(self.bigt)
+#                        print('x')
+#        if(self.test % 1000 == 0):
+#                print(self.index)
+#                print(np.max(input_items[0]).real)                
+#                print('max ^')
+      
+#        if (np.max(input_items[0]).real > self.bigt):
+#                print(np.max(input_items[0]).real)
+#                print(self.bigt)
+#                print('^')
+                
         if (np.all(input_items[1] == 1)):
                 output_items[0][:] = input_items[0]
                 
         else: 
                 output_items[0][:] = 0
         return len(output_items[0])
+        
+    def thresh(self):
+        return self.bigt

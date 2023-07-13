@@ -26,7 +26,7 @@ import os
 
 import argparse
 
-#from waggle.plugin import Plugin, get_timestamp
+from waggle.plugin import Plugin, get_timestamp
 
 
 def snipfcn_snippet_0(self):
@@ -57,8 +57,8 @@ class NOGUICODE(gr.top_block):
              os.mkdir(self.location)
         
         with open(self.txt,'a') as f:
-             f.write(time.strftime(' Threshold: ' + str(self.thresh)+ '\n Center Frequency: ' + str(args.freq)+ '\n Shot Duration: ' + str(args.dur) + '\n \n ' + 'BEGIN RECORDING: %b %d %Y %H:%M:%S \n', time.localtime()))
-
+             f.write(time.strftime( '\n Center Frequency: ' + str(args.freq)+ '\n Shot Duration: ' + str(args.dur) + '\n \n ' + 'BEGIN RECORDING: %b %d %Y %H:%M:%S \n', time.localtime()))
+#' Threshold: ' + str(self.thresh)+
         ##################################################
         # Blocks
         ##################################################
@@ -77,6 +77,7 @@ class NOGUICODE(gr.top_block):
         self.soapy_rtlsdr_source_0.set_gain(0, 'TUNER', 20)
         self.epy_block_1_0_0_0 = epy_block_1_0_0_0.blk(stall=2500,local=self.location)
         self.epy_block_0_2_0_0_0 = epy_block_0_2_0_0_0.blk()
+        self.thresh = self.epy_block_0_2_0_0_0.bigt
         self.blocks_wavfile_sink_0_0_0_0 = blocks.wavfile_sink(
             self.wav,
             2,
@@ -85,7 +86,8 @@ class NOGUICODE(gr.top_block):
             blocks.FORMAT_PCM_16,
             False
             )
-        self.blocks_threshold_ff_0_0_0_0 = blocks.threshold_ff(self.epy_block_0_2_0_0_0.bigt - self.epy_block_0_2_0_0_0.bigt * .01, self.epy_block_0_2_0_0_0.bigt, 0)
+
+        self.blocks_threshold_ff_0_0_0_0 = blocks.threshold_ff(.01, self.thresh, 0)
         self.blocks_null_sink_0_0_0_0 = blocks.null_sink(gr.sizeof_float*1)
         self.blocks_float_to_char_0_0_0_0 = blocks.float_to_char(1, 1)
         self.blocks_delay_1_0_0_0 = blocks.delay(gr.sizeof_gr_complex*1, 4000000)
@@ -99,8 +101,8 @@ class NOGUICODE(gr.top_block):
         self.connect((self.analog_pwr_squelch_xx_0_0_0_0, 0), (self.blocks_complex_to_float_0_0_0_0, 0))
         self.connect((self.blocks_complex_to_float_0_0_0_0, 1), (self.blocks_wavfile_sink_0_0_0_0, 1))
         self.connect((self.blocks_complex_to_float_0_0_0_0, 0), (self.blocks_wavfile_sink_0_0_0_0, 0))
-        self.connect((self.blocks_complex_to_float_1_0_0_0, 1), (self.blocks_threshold_ff_0_0_0_0, 0))
-        self.connect((self.blocks_complex_to_float_1_0_0_0, 0), (self.blocks_null_sink_0_0_0_0, 0))
+        self.connect((self.blocks_complex_to_float_1_0_0_0, 0), (self.blocks_threshold_ff_0_0_0_0, 0))
+        self.connect((self.blocks_complex_to_float_1_0_0_0, 1), (self.blocks_null_sink_0_0_0_0, 0))
         self.connect((self.blocks_delay_1_0_0_0, 0), (self.epy_block_0_2_0_0_0, 0))
         self.connect((self.blocks_float_to_char_0_0_0_0, 0), (self.epy_block_1_0_0_0, 0))
         self.connect((self.blocks_threshold_ff_0_0_0_0, 0), (self.blocks_float_to_char_0_0_0_0, 0))
@@ -111,12 +113,13 @@ class NOGUICODE(gr.top_block):
 
 
     def get_thresh(self):
-        return self.thresh
+        return self.epy_block_0_2_0_0_0.bigt
 
-    def set_thresh(self, thresh):
+    def set_thresh(self, thresh, epy_block_0_2_0_0_0):
         self.thresh = self.epy_block_0_2_0_0_0.bigt
-        self.blocks_threshold_ff_0_0_0_0.set_hi(self.epy_block_0_2_0_0_0.bigt)
-        self.blocks_threshold_ff_0_0_0_0.set_lo(self.epy_block_0_2_0_0_0.bigt - self.epy_block_0_2_0_0_0.bigt * .01)
+        self.blocks_threshold_ff_0_0_0_0.set_hi(self.thresh)
+        self.blocks_threshold_ff_0_0_0_0.set_lo(.01)
+        print('test')
 
     def get_samp_rate(self):
         return self.samp_rate
@@ -156,30 +159,49 @@ def main(args,top_block_cls=NOGUICODE, options=None):
 
 
     tb.start()
-
+#    print(tb.epy_block_0_2_0_0_0.bigt)
 #    while (tb.epy_block_1_0_0_0.events < 1):
 #            time.sleep(3)
 #            print('while 1')
-    
-    time.sleep(args.dur)
-    
+    for _ in range(args.dur):
+         time.sleep(1)
+#         print(tb.epy_block_0_2_0_0_0.bigt)
+#         print(tb.epy_block_0_2_0_0_0.bigt)
+         tb.blocks_threshold_ff_0_0_0_0.set_hi(tb.epy_block_0_2_0_0_0.bigt)
+
+
     if (tb.epy_block_1_0_0_0.events > tb.epy_block_1_0_0_0.ends):
             time.sleep(2)
-    print(tb.thresh)
-    print(tb.epy_block_0_2_0_0_0.bigt)
+#    print(tb.epy_block_0_2_0_0_0.bigt)
     tb.stop()
     tb.wait()
     snippets_main_after_stop(tb)
     
-#    meta = {'sdr_events':str(tb.epy_block_1_0_0_0.events),
-#            'sdr_threshold':str(tb.epy_block_0_2_0_0_0.bigt),
-#            'sdr_frequency':str(args.freq)
-#    }
-#    if(tb.epy_block_1_0_0_0.events > 0):
-#        with Plugin() as plugin:
-#            plugin.upload_file(tb.txt, meta=meta)
-#            plugin.upload_file(tb.wav, meta=meta)
-#            plugin.publish('sdr.events', tb.epy_block_1_0_0_0.events, meta=meta)
+    meta = {'sdr_events':str(tb.epy_block_1_0_0_0.events),
+            'sdr_threshold':str(tb.epy_block_0_2_0_0_0.bigt),
+            'sdr_frequency':str(args.freq)
+    }
+    if(tb.epy_block_1_0_0_0.events > 0):
+        with Plugin() as plugin:
+            plugin.upload_file(tb.txt, meta=meta)
+            plugin.upload_file(tb.wav, meta=meta)
+            plugin.publish('sdr.events', tb.epy_block_1_0_0_0.events, meta=meta)
+            fs, data = wavfile.read('/media/waggle/Seagate Por/Lightning Data/poop/whoops')
+            please = data[:,0] + 1j*data[:,1]
+            please = np.trim_zeros(please)
+            please = please[~np.isnan(please)]
+
+            plt.specgram(please, NFFT=1024, Fs=fs, Fc=55000000)
+            plt.title("PSD of 'signal' loaded from file")
+            plt.xlabel("Time")
+            plt.ylabel("Frequency")
+            plt.savefig(tb.location + 'specgram.png')
+            plugin.upload_file(tb.location + 'specgram.png', meta=meta)
+
+            plt.psd(please, NFFT=1024, Fs=256000)
+            plt.title("PSD of 'signal' loaded from file")
+            plt.savefig(tb.location + 'PSD.png')
+            plugin.upload_file(tb.location + 'PSD.png', meta=meta)
 
 # This part needs changes to work as intended.
 if __name__ == '__main__':
@@ -189,7 +211,7 @@ if __name__ == '__main__':
     parser.add_argument("--duration",
                         type=int,
                         dest='dur',
-                        default=20,
+                        default=180,
                         help="Oneshot duration for detecting signal (sec)."
                         )
     parser.add_argument("--frequency",

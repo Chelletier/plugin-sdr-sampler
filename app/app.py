@@ -23,6 +23,10 @@ import epy_block_0_2_0_0_0  # embedded python block
 import epy_block_1_0_0_0  # embedded python block
 import time
 import os
+#import matplotlib.pyplot as plt
+#import numpy as np
+#import scipy.signal
+#from scipy.io import wavfile 
 
 import argparse
 
@@ -182,26 +186,26 @@ def main(args,top_block_cls=NOGUICODE, options=None):
             'sdr_frequency':str(args.freq)
     }
     if(tb.epy_block_1_0_0_0.events > 0):
-        with Plugin() as plugin:
-            plugin.upload_file(tb.txt, meta=meta)
-            plugin.upload_file(tb.wav, meta=meta)
-            plugin.publish('sdr.events', tb.epy_block_1_0_0_0.events, meta=meta)
-            fs, data = wavfile.read('/media/waggle/Seagate Por/Lightning Data/poop/whoops')
-            please = data[:,0] + 1j*data[:,1]
-            please = np.trim_zeros(please)
-            please = please[~np.isnan(please)]
+            with Plugin() as plugin:
+                 plugin.upload_file(tb.txt, meta=meta)
+                 plugin.upload_file(tb.wav, meta=meta)
+                 plugin.publish('sdr.events', tb.epy_block_1_0_0_0.events, meta=meta)
+#         fs, data = wavfile.read('/media/waggle/Seagate Por/Lightning Data/poop/whoops')
+#         please = data[:,0] + 1j*data[:,1]
+#         please = np.trim_zeros(please)
+#         please = please[~np.isnan(please)]
 
-            plt.specgram(please, NFFT=1024, Fs=fs, Fc=55000000)
-            plt.title("PSD of 'signal' loaded from file")
-            plt.xlabel("Time")
-            plt.ylabel("Frequency")
-            plt.savefig(tb.location + 'specgram.png')
-            plugin.upload_file(tb.location + 'specgram.png', meta=meta)
+#         plt.specgram(please, NFFT=1024, Fs=fs, Fc=55000000)
+#         plt.title("PSD of 'signal' loaded from file")
+#         plt.xlabel("Time")
+#         plt.ylabel("Frequency")
+#         plt.savefig(tb.location + 'specgram.png')
+#            plugin.upload_file(tb.location + 'specgram.png', meta=meta)
 
-            plt.psd(please, NFFT=1024, Fs=256000)
-            plt.title("PSD of 'signal' loaded from file")
-            plt.savefig(tb.location + 'PSD.png')
-            plugin.upload_file(tb.location + 'PSD.png', meta=meta)
+#         plt.psd(please, NFFT=1024, Fs=256000)
+#         plt.title("PSD of 'signal' loaded from file")
+#         plt.savefig(tb.location + 'PSD.png')
+#            plugin.upload_file(tb.location + 'PSD.png', meta=meta)
 
 # This part needs changes to work as intended.
 if __name__ == '__main__':

@@ -45,8 +45,9 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
 #                        print(self.alpha.real)
 #                        print(self.test2/self.count)
 
-                        self.bigt = (self.alpha.real) + (self.alpha.real) * 0.2 
-#                        self.bigt = (self.test2/self.count) 
+#                        self.bigt = (self.alpha.real) + (self.alpha.real) * 0.2 
+                        self.bigt = (self.test2/self.count) * 1.5 
+                        print(self.bigt)
                         self.index = 0
                         self.test2 = 0
                         self.count = 1

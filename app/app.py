@@ -53,7 +53,7 @@ class NOGUICODE(gr.top_block):
         
         self.samp_rate = samp_rate = 2560000
         self.location = location = '/lightning/'
-        self.Freq = Freq = args.freq
+        self.freq = freq = args.freq
         self.txt = self.location + 'event_times.txt'
         self.wav = self.location + time.strftime('%H_%M_%S', time.localtime()) + '.wav'
 
@@ -76,7 +76,7 @@ class NOGUICODE(gr.top_block):
                                   stream_args, tune_args, settings)
         self.soapy_rtlsdr_source_0.set_sample_rate(0, samp_rate)
         self.soapy_rtlsdr_source_0.set_gain_mode(0, False)
-        self.soapy_rtlsdr_source_0.set_frequency(0, 55000000)
+        self.soapy_rtlsdr_source_0.set_frequency(0, self.freq)
         self.soapy_rtlsdr_source_0.set_frequency_correction(0, 0)
         self.soapy_rtlsdr_source_0.set_gain(0, 'TUNER', 20)
         self.epy_block_1_0_0_0 = epy_block_1_0_0_0.blk(stall=2500,local=self.location)
@@ -221,7 +221,7 @@ if __name__ == '__main__':
     parser.add_argument("--frequency",
                         type=int,
                         dest='freq',
-                        default=45000000,
+                        default=30000000,
                         help="Center frequency scanned (Hz)."
                         )
     args = parser.parse_args()

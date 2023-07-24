@@ -52,7 +52,7 @@ class NOGUICODE(gr.top_block):
         ##################################################
         
         self.samp_rate = samp_rate = 2560000
-        self.location = location = '/lightning'
+        self.location = location = '/lightning/'
         self.Freq = Freq = args.freq
         self.txt = self.location + 'event_times.txt'
         self.wav = self.location + time.strftime('%H_%M_%S', time.localtime()) + '.wav'
@@ -167,7 +167,7 @@ def main(args,top_block_cls=NOGUICODE, options=None):
 #    while (tb.epy_block_1_0_0_0.events < 1):
 #            time.sleep(3)
 #            print('while 1')
-    for _ in range(args.dur):
+    while tb.epy_block_1_0_0_0.ends == 0:
          time.sleep(1)
 #         print(tb.epy_block_0_2_0_0_0.bigt)
 #         print(tb.epy_block_0_2_0_0_0.bigt)

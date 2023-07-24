@@ -52,7 +52,7 @@ class NOGUICODE(gr.top_block):
         ##################################################
         
         self.samp_rate = samp_rate = 2560000
-        self.location = location = '/home/waggle/lightning/data'
+        self.location = location = '/lightning/data'
         self.Freq = Freq = args.freq
         self.txt = self.location + 'event_times.txt'
         self.wav = self.location + time.strftime('%H_%M_%S', time.localtime()) + '.wav'
@@ -215,7 +215,7 @@ if __name__ == '__main__':
     parser.add_argument("--duration",
                         type=int,
                         dest='dur',
-                        default=60,
+                        default=900,
                         help="Oneshot duration for detecting signal (sec)."
                         )
     parser.add_argument("--frequency",

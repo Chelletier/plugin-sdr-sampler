@@ -61,7 +61,7 @@ class NOGUICODE(gr.top_block):
              os.mkdir(self.location)
         
         with open(self.txt,'a') as f:
-             f.write(time.strftime( '\n Center Frequency: ' + str(args.freq)+ '\n Shot Duration: ' + str(args.dur) + '\n \n ' + 'BEGIN RECORDING: %b %d %Y %H:%M:%S \n', time.localtime()))
+             f.write(time.strftime( '\n Center Frequency: ' + str(args.freq)+ '\n Threshold Modifier: ' + str(args.mod) + '\n \n ' + 'BEGIN RECORDING: %b %d %Y %H:%M:%S \n', time.localtime()))
 #' Threshold: ' + str(self.thresh)+
         ##################################################
         # Blocks
@@ -80,7 +80,7 @@ class NOGUICODE(gr.top_block):
         self.soapy_rtlsdr_source_0.set_frequency_correction(0, 0)
         self.soapy_rtlsdr_source_0.set_gain(0, 'TUNER', 20)
         self.epy_block_1_0_0_0 = epy_block_1_0_0_0.blk(stall=2500,local=self.location)
-        self.epy_block_0_2_0_0_0 = epy_block_0_2_0_0_0.blk()
+        self.epy_block_0_2_0_0_0 = epy_block_0_2_0_0_0.blk(mod = args.mod)
         self.thresh = self.epy_block_0_2_0_0_0.bigt
         self.blocks_wavfile_sink_0_0_0_0 = blocks.wavfile_sink(
             self.wav,
@@ -212,11 +212,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
             description="Plugin for sampling RTL-SDR data")
 
-    parser.add_argument("--duration",
-                        type=int,
-                        dest='dur',
-                        default=900,
-                        help="Oneshot duration for detecting signal (sec)."
+    parser.add_argument("--tmod",
+                        type=float,
+                        dest='mod',
+                        default=1.75,
+                        help="tunes the threshold"
                         )
     parser.add_argument("--frequency",
                         type=int,

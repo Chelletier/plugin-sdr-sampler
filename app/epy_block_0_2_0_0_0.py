@@ -14,7 +14,7 @@ import cmath
 class blk(gr.sync_block):  # other base classes are basic_block, decim_block, interp_block
     """Embedded Python Block example - a simple multiply const"""
 
-    def __init__(self):  # only default arguments here
+    def __init__(self,mod = 1.75):  # only default arguments here
         """arguments to this function show up as parameters in GRC"""
         gr.sync_block.__init__(
             self,
@@ -31,6 +31,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         self.count = 1
         self.test2 = 0
         self.reset = 10000
+        self.mod = mod
         
     def work(self, input_items, output_items):
         self.test = self.test + 1
@@ -46,7 +47,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
 #                        print(self.test2/self.count)
 
 #                        self.bigt = (self.alpha.real) + (self.alpha.real) * 0.2 
-                        self.bigt = (self.test2/self.count) * 1.5 
+                        self.bigt = (self.test2/self.count) * self.mod 
                         print(self.bigt)
                         self.index = 0
                         self.test2 = 0

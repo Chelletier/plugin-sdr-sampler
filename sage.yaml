@@ -1,7 +1,7 @@
 name: "sdr-sampler"
 namespace: "waggle"
 description: "Detects radio signals in short bursts and uploads data when an anomaly is found."
-version: "0.23.07.24.1"
+version: "0.23.07.24.2"
 authors: "Chase Pelletier <cpelletier@anl.gov>, Bhupendra Raut, Rajesh Sankaran"
 collaborators: "Dario Dematties Reyes, Joseph Swantek, Neal Conrad, Nicola Ferrier, Pete Beckman, Robert Jackson, Scott Collis, Sean Shahkarami, Seongha Park, Yongho Kim"
 funding: "NSF 1935984"
@@ -16,10 +16,8 @@ source:
   branch: "main"
 
 inputs:
-- id: "threshold"
+- id: "tmod"
   type: "float"
-- id: "duration"
-  type: "int"
 - id: "frequency"
   type: "int"
 

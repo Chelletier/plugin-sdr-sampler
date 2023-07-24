@@ -13,7 +13,7 @@ import time
 class blk(gr.sync_block):  # other base classes are basic_block, decim_block, interp_block
     """Embedded Python Block example - a simple multiply const"""
 
-    def __init__(self, stall=1.0, local='.'):  # only default arguments here
+    def __init__(self, stall=1.0, local='.', mod = 1.5):  # only default arguments here
         """arguments to this function show up as parameters in GRC"""
         gr.sync_block.__init__(
             self,

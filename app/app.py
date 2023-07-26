@@ -182,7 +182,7 @@ def main(args,top_block_cls=NOGUICODE, options=None):
     snippets_main_after_stop(tb)
     
     meta = {'sdr_events':str(tb.epy_block_1_0_0_0.events),
-            'sdr_threshold':str(tb.epy_block_0_2_0_0_0.bigt),
+            'sdr_threshold_mod':str(args.mod),
             'sdr_frequency':str(args.freq)
     }
     if(tb.epy_block_1_0_0_0.events > 0):
@@ -215,13 +215,13 @@ if __name__ == '__main__':
     parser.add_argument("--tmod",
                         type=float,
                         dest='mod',
-                        default=1.75,
+                        default=2.75,
                         help="tunes the threshold"
                         )
     parser.add_argument("--frequency",
                         type=int,
                         dest='freq',
-                        default=30000000,
+                        default=25000000,
                         help="Center frequency scanned (Hz)."
                         )
     args = parser.parse_args()
